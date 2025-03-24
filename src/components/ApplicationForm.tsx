@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 interface FormData {
   fullName: string;
@@ -182,12 +184,12 @@ const ApplicationForm = () => {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="fullName" className="block text-white/80 mb-2">Full Name</label>
-                <input
+                <Input
                   type="text"
                   id="fullName"
                   name="fullName"
                   required
-                  className="form-input w-full"
+                  className="w-full bg-white/10 text-white border-white/20"
                   value={formData.fullName}
                   onChange={handleInputChange}
                 />
@@ -195,14 +197,14 @@ const ApplicationForm = () => {
               
               <div>
                 <label htmlFor="age" className="block text-white/80 mb-2">Age</label>
-                <input
+                <Input
                   type="number"
                   id="age"
                   name="age"
                   min="13"
                   max="99"
                   required
-                  className="form-input w-full"
+                  className="w-full bg-white/10 text-white border-white/20"
                   value={formData.age}
                   onChange={handleInputChange}
                 />
@@ -210,13 +212,13 @@ const ApplicationForm = () => {
               
               <div>
                 <label htmlFor="discordId" className="block text-white/80 mb-2">Discord ID</label>
-                <input
+                <Input
                   type="text"
                   id="discordId"
                   name="discordId"
                   required
                   placeholder="username#0000"
-                  className="form-input w-full"
+                  className="w-full bg-white/10 text-white border-white/20"
                   value={formData.discordId}
                   onChange={handleInputChange}
                 />
@@ -224,12 +226,12 @@ const ApplicationForm = () => {
               
               <div>
                 <label htmlFor="location" className="block text-white/80 mb-2">City & Country</label>
-                <input
+                <Input
                   type="text"
                   id="location"
                   name="location"
                   required
-                  className="form-input w-full"
+                  className="w-full bg-white/10 text-white border-white/20"
                   value={formData.location}
                   onChange={handleInputChange}
                 />
@@ -402,15 +404,15 @@ const ApplicationForm = () => {
               <label htmlFor="additionalInfo" className="block text-white/80 mb-2">
                 Additional Comments or Questions
               </label>
-              <textarea
+              <Textarea
                 id="additionalInfo"
                 name="additionalInfo"
                 rows={4}
-                className="form-input w-full resize-none"
+                className="w-full bg-white/10 text-white border-white/20 resize-none"
                 placeholder="Tell us anything else you'd like us to know..."
                 value={formData.additionalInfo}
                 onChange={handleInputChange}
-              ></textarea>
+              />
             </div>
             
             <div className="mt-8 text-center text-white/70">

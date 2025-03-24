@@ -102,6 +102,23 @@
   a, button, [role="button"] {
     cursor: url('/cursor-pointer.png') 0 0, pointer !important;
   }
+  
+  /* Input styling fixes */
+  input, textarea {
+    @apply text-white bg-opacity-20;
+    color: white !important;
+  }
+  
+  input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+  
+  /* For number inputs */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 }
 
 @layer components {
@@ -116,7 +133,7 @@
   }
   
   .form-input {
-    @apply py-3 px-4 bg-white/50 backdrop-blur-sm border border-white/20 rounded-md 
+    @apply py-3 px-4 bg-white/10 text-white border border-white/20 rounded-md 
     focus:outline-none focus:ring-2 focus:ring-valorant-red/50 focus:border-transparent
     transition-all duration-300 shadow-inner;
   }
