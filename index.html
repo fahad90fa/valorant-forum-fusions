@@ -1,26 +1,288 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>valorant-forum-fusion</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Tragic - Valorant Team Application</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-logo">TEAM TRAGIC</h1>
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#" class="nav-link">Home</a></li>
+          <li><a href="#" class="nav-link">Team</a></li>
+          <li><a href="#" class="nav-link">Tournaments</a></li>
+          <li><a href="#" class="nav-link">News</a></li>
+          <li><a href="#application-form" class="nav-link cta">Join Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <meta property="og:title" content="Lovable Generated Project" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">JOIN THE ELITE</h1>
+      <h2 class="hero-subtitle">RISE WITH TRAGIC</h2>
+      <p class="hero-text">We're looking for dedicated players to join our competitive Valorant team. Do you have what it takes?</p>
+      <a href="#application-form" class="btn-primary">Apply Now</a>
+    </div>
+  </section>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+  <section id="application-form" class="application-form">
+    <div class="form-container">
+      <div class="form-header">
+        <h2>JOIN TEAM TRAGIC</h2>
+        <p>Fill out the application below to be considered for our competitive Valorant team.</p>
+      </div>
+      
+      <div class="form-progress">
+        <div class="progress-step active" data-step="0">
+          <div class="step-icon">👤</div>
+          <span class="step-name">Personal Info</span>
+        </div>
+        <div class="progress-step" data-step="1">
+          <div class="step-icon">🏆</div>
+          <span class="step-name">Rank Info</span>
+        </div>
+        <div class="progress-step" data-step="2">
+          <div class="step-icon">🎯</div>
+          <span class="step-name">Experience</span>
+        </div>
+        <div class="progress-step" data-step="3">
+          <div class="step-icon">📋</div>
+          <span class="step-name">Additional</span>
+        </div>
+      </div>
+      
+      <form id="team-application">
+        <!-- Step 1: Personal Information -->
+        <div class="form-step active" data-step="0">
+          <h3>Personal Information</h3>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fullName">Full Name</label>
+              <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input type="number" id="age" name="age" min="13" max="99" placeholder="Enter your age" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="discordId">Discord ID</label>
+              <input type="text" id="discordId" name="discordId" placeholder="username#0000" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="location">City & Country</label>
+              <input type="text" id="location" name="location" placeholder="e.g., London, UK" required>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 2: Rank Information -->
+        <div class="form-step" data-step="1">
+          <h3>Rank Information</h3>
+          
+          <div class="form-group">
+            <p>What is your current rank in Valorant? (Select your highest rank)</p>
+            <div class="radio-grid">
+              <div class="radio-item">
+                <input type="radio" id="rank-Gold" name="currentRank" value="Gold">
+                <label for="rank-Gold">Gold</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="rank-Platinum" name="currentRank" value="Platinum">
+                <label for="rank-Platinum">Platinum</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="rank-Diamond" name="currentRank" value="Diamond">
+                <label for="rank-Diamond">Diamond</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="rank-Ascendant" name="currentRank" value="Ascendant">
+                <label for="rank-Ascendant">Ascendant</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="rank-Immortal" name="currentRank" value="Immortal">
+                <label for="rank-Immortal">Immortal</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="rank-Radiant" name="currentRank" value="Radiant">
+                <label for="rank-Radiant">Radiant</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <p>What is your main role in Valorant? (Select one or more)</p>
+            <div class="checkbox-grid">
+              <div class="checkbox-item">
+                <input type="checkbox" id="role-Duelist" name="mainRole" value="Duelist">
+                <label for="role-Duelist">Duelist</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="role-Controller" name="mainRole" value="Controller">
+                <label for="role-Controller">Controller</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="role-Initiator" name="mainRole" value="Initiator">
+                <label for="role-Initiator">Initiator</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="role-Sentinel" name="mainRole" value="Sentinel">
+                <label for="role-Sentinel">Sentinel</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <p>How many hours do you play per day?</p>
+            <div class="radio-grid">
+              <div class="radio-item">
+                <input type="radio" id="time-Less than 2 hours" name="playTime" value="Less than 2 hours">
+                <label for="time-Less than 2 hours">Less than 2 hours</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="time-2-4 hours" name="playTime" value="2-4 hours">
+                <label for="time-2-4 hours">2-4 hours</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="time-4-6 hours" name="playTime" value="4-6 hours">
+                <label for="time-4-6 hours">4-6 hours</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="time-More than 6 hours" name="playTime" value="More than 6 hours">
+                <label for="time-More than 6 hours">More than 6 hours</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 3: Experience & Goals -->
+        <div class="form-step" data-step="2">
+          <h3>Experience & Goals</h3>
+          
+          <div class="form-group">
+            <p>Have you participated in any tournaments before?</p>
+            <div class="radio-grid small">
+              <div class="radio-item">
+                <input type="radio" id="tournament-Yes" name="tournaments" value="Yes">
+                <label for="tournament-Yes">Yes</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="tournament-No" name="tournaments" value="No">
+                <label for="tournament-No">No</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <p>Why do you want to join Team Tragic? (Select all that apply)</p>
+            <div class="checkbox-grid two-col">
+              <div class="checkbox-item">
+                <input type="checkbox" id="motivation-compete" name="motivation" value="To compete professionally">
+                <label for="motivation-compete">To compete professionally</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="motivation-improve" name="motivation" value="To improve my skills in a structured environment">
+                <label for="motivation-improve">To improve my skills in a structured environment</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="motivation-community" name="motivation" value="To be part of a dedicated e-sports community">
+                <label for="motivation-community">To be part of a dedicated e-sports community</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="motivation-fun" name="motivation" value="For fun and competitive gaming">
+                <label for="motivation-fun">For fun and competitive gaming</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <p>Are you willing to commit to regular training sessions and team meetings?</p>
+            <div class="radio-grid three-col">
+              <div class="radio-item">
+                <input type="radio" id="commitment-Yes" name="commitment" value="Yes">
+                <label for="commitment-Yes">Yes</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="commitment-No" name="commitment" value="No">
+                <label for="commitment-No">No</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="commitment-Depends" name="commitment" value="Depends on schedule">
+                <label for="commitment-Depends">Depends on schedule</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Step 4: Additional Information -->
+        <div class="form-step" data-step="3">
+          <h3>Additional Information</h3>
+          
+          <div class="form-group">
+            <p>Do you have experience in streaming, content creation, or coaching?</p>
+            <div class="radio-grid small">
+              <div class="radio-item">
+                <input type="radio" id="content-Yes" name="contentCreation" value="Yes">
+                <label for="content-Yes">Yes</label>
+              </div>
+              <div class="radio-item">
+                <input type="radio" id="content-No" name="contentCreation" value="No">
+                <label for="content-No">No</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="additionalInfo">Additional Comments or Questions</label>
+            <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="Tell us anything else you'd like us to know..."></textarea>
+          </div>
+          
+          <div class="form-message">
+            <p>Submit your form, and we will review your application. If shortlisted, you will be contacted for tryouts.</p>
+            <p class="highlight">Good luck!</p>
+          </div>
+        </div>
+        
+        <div class="form-navigation">
+          <button type="button" id="prevBtn" class="btn-secondary">Previous</button>
+          <button type="button" id="nextBtn" class="btn-primary">Next Step</button>
+          <button type="submit" id="submitBtn" class="btn-primary" style="display: none;">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </section>
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <footer class="site-footer">
+    <div class="container">
+      <h2>TEAM TRAGIC</h2>
+      <p>Join the elite. Rise with Tragic.</p>
+      <div class="social-links">
+        <a href="#">Twitter</a>
+        <a href="#">Discord</a>
+        <a href="#">Twitch</a>
+        <a href="#">YouTube</a>
+      </div>
+      <p class="copyright">© <span id="currentYear"></span> Team Tragic. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast">
+    <div class="toast-content">
+      <div class="toast-message"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
