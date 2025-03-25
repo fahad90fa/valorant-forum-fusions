@@ -1,8 +1,10 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface FormData {
   fullName: string;
@@ -50,9 +52,7 @@ const ApplicationForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
-    
+  const handleCheckboxChange = (name: string, value: string, checked: boolean) => {
     if (checked) {
       setFormData(prev => ({
         ...prev,
@@ -66,14 +66,32 @@ const ApplicationForm = () => {
     }
   };
   
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleRadioChange = (name: string, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
+  const validateCurrentStep = () => {
+    switch (currentStep) {
+      case 0: // Personal Information
+        return formData.fullName && formData.age && formData.discordId && formData.location;
+      case 1: // Rank Information
+        return formData.currentRank && formData.mainRole.length > 0 && formData.playTime;
+      case 2: // Experience & Goals
+        return formData.tournaments && formData.motivation.length > 0 && formData.commitment;
+      case 3: // Additional Information
+        return formData.contentCreation !== '';
+      default:
+        return true;
+    }
+  };
+  
   const nextStep = () => {
-    if (currentStep < formSteps.length - 1) {
-      setCurrentStep(prev => prev + 1);
+    if (validateCurrentStep()) {
+      if (currentStep < formSteps.length - 1) {
+        setCurrentStep(prev => prev + 1);
+      }
+    } else {
+      toast.error("Please fill all required fields in this section");
     }
   };
   
@@ -85,10 +103,19 @@ const ApplicationForm = () => {
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would send the data to a backend
+    
+    // Validate all form fields before submission
+    for (let i = 0; i < formSteps.length; i++) {
+      setCurrentStep(i);
+      if (!validateCurrentStep()) {
+        toast.error(`Please complete all required fields in ${formSteps[i].name}`);
+        return;
+      }
+    }
+    
+    // If all validations pass
     console.log('Form submitted:', formData);
     
-    // Show success message
     toast.success('Application submitted!', {
       description: 'We will review your application and contact you soon.'
     });
@@ -113,7 +140,6 @@ const ApplicationForm = () => {
     setCurrentStep(0);
   };
 
-  // Animation for the form when it comes into view
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -146,7 +172,6 @@ const ApplicationForm = () => {
         ref={formRef} 
         className="w-full max-w-4xl bg-white/5 backdrop-blur-md border border-white/10 rounded-lg shadow-2xl opacity-0 overflow-hidden"
       >
-        {/* Form Header */}
         <div className="bg-valorant-red/90 p-6 md:p-8">
           <h2 className="text-3xl md:text-4xl font-valorant text-white text-center">
             JOIN TEAM TRAGIC
@@ -156,7 +181,6 @@ const ApplicationForm = () => {
           </p>
         </div>
         
-        {/* Progress Steps */}
         <div className="flex justify-center p-4 bg-black/30">
           {formSteps.map((step, index) => (
             <div 
@@ -175,9 +199,7 @@ const ApplicationForm = () => {
           ))}
         </div>
         
-        {/* Form Content */}
         <form onSubmit={handleSubmit} className="p-6 md:p-10">
-          {/* Step 1: Personal Information */}
           <div className={`form-step ${currentStep === 0 ? 'active' : ''}`}>
             <h3 className="text-2xl font-valorant text-white mb-6">Personal Information</h3>
             
@@ -188,10 +210,10 @@ const ApplicationForm = () => {
                   type="text"
                   id="fullName"
                   name="fullName"
-                  required
-                  className="w-full bg-white/10 text-white border-white/20"
                   value={formData.fullName}
                   onChange={handleInputChange}
+                  className="w-full bg-white/10 text-white border-white/20"
+                  required
                 />
               </div>
               
@@ -203,10 +225,10 @@ const ApplicationForm = () => {
                   name="age"
                   min="13"
                   max="99"
-                  required
-                  className="w-full bg-white/10 text-white border-white/20"
                   value={formData.age}
                   onChange={handleInputChange}
+                  className="w-full bg-white/10 text-white border-white/20"
+                  required
                 />
               </div>
               
@@ -216,11 +238,11 @@ const ApplicationForm = () => {
                   type="text"
                   id="discordId"
                   name="discordId"
-                  required
                   placeholder="username#0000"
-                  className="w-full bg-white/10 text-white border-white/20"
                   value={formData.discordId}
                   onChange={handleInputChange}
+                  className="w-full bg-white/10 text-white border-white/20"
+                  required
                 />
               </div>
               
@@ -230,103 +252,93 @@ const ApplicationForm = () => {
                   type="text"
                   id="location"
                   name="location"
-                  required
-                  className="w-full bg-white/10 text-white border-white/20"
                   value={formData.location}
                   onChange={handleInputChange}
+                  className="w-full bg-white/10 text-white border-white/20"
+                  required
                 />
               </div>
             </div>
           </div>
           
-          {/* Step 2: Rank Information */}
           <div className={`form-step ${currentStep === 1 ? 'active' : ''}`}>
             <h3 className="text-2xl font-valorant text-white mb-6">Rank Information</h3>
             
             <div className="mb-8">
               <p className="text-white/80 mb-3">What is your current rank in Valorant? (Select your highest rank)</p>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <RadioGroup 
+                name="currentRank" 
+                value={formData.currentRank} 
+                onValueChange={(value) => handleRadioChange('currentRank', value)}
+                className="grid grid-cols-2 md:grid-cols-3 gap-4"
+              >
                 {['Gold', 'Platinum', 'Diamond', 'Ascendant', 'Immortal', 'Radiant'].map(rank => (
-                  <label key={rank} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md cursor-pointer">
-                    <input
-                      type="radio"
-                      name="currentRank"
-                      value={rank}
-                      checked={formData.currentRank === rank}
-                      onChange={handleRadioChange}
-                      className="mr-2"
-                    />
-                    <span className="text-white">{rank}</span>
-                  </label>
+                  <div key={rank} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md space-x-2">
+                    <RadioGroupItem value={rank} id={`rank-${rank}`} className="text-white" />
+                    <Label htmlFor={`rank-${rank}`} className="text-white cursor-pointer w-full">{rank}</Label>
+                  </div>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
             
             <div className="mb-8">
               <p className="text-white/80 mb-3">What is your main role in Valorant? (Select one or more)</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {['Duelist', 'Controller', 'Initiator', 'Sentinel'].map(role => (
-                  <label key={role} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="mainRole"
-                      value={role}
+                  <div key={role} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md space-x-2">
+                    <Checkbox 
+                      id={`role-${role}`} 
                       checked={formData.mainRole.includes(role)}
-                      onChange={handleCheckboxChange}
-                      className="mr-2"
+                      onCheckedChange={(checked) => handleCheckboxChange('mainRole', role, checked as boolean)}
+                      className="text-white data-[state=checked]:bg-valorant-red"
                     />
-                    <span className="text-white">{role}</span>
-                  </label>
+                    <Label htmlFor={`role-${role}`} className="text-white cursor-pointer w-full">{role}</Label>
+                  </div>
                 ))}
               </div>
             </div>
             
             <div>
               <p className="text-white/80 mb-3">How many hours do you play per day?</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <RadioGroup 
+                name="playTime" 
+                value={formData.playTime} 
+                onValueChange={(value) => handleRadioChange('playTime', value)}
+                className="grid grid-cols-2 md:grid-cols-4 gap-4"
+              >
                 {[
                   'Less than 2 hours', 
                   '2-4 hours', 
                   '4-6 hours', 
                   'More than 6 hours'
                 ].map(time => (
-                  <label key={time} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md cursor-pointer">
-                    <input
-                      type="radio"
-                      name="playTime"
-                      value={time}
-                      checked={formData.playTime === time}
-                      onChange={handleRadioChange}
-                      className="mr-2"
-                    />
-                    <span className="text-white">{time}</span>
-                  </label>
+                  <div key={time} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md space-x-2">
+                    <RadioGroupItem value={time} id={`time-${time}`} className="text-white" />
+                    <Label htmlFor={`time-${time}`} className="text-white cursor-pointer w-full">{time}</Label>
+                  </div>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
           </div>
           
-          {/* Step 3: Experience & Goals */}
           <div className={`form-step ${currentStep === 2 ? 'active' : ''}`}>
             <h3 className="text-2xl font-valorant text-white mb-6">Experience & Goals</h3>
             
             <div className="mb-8">
               <p className="text-white/80 mb-3">Have you participated in any tournaments before?</p>
-              <div className="grid grid-cols-2 gap-4 max-w-xs">
+              <RadioGroup 
+                name="tournaments" 
+                value={formData.tournaments} 
+                onValueChange={(value) => handleRadioChange('tournaments', value)}
+                className="grid grid-cols-2 gap-4 max-w-xs"
+              >
                 {['Yes', 'No'].map(option => (
-                  <label key={option} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md cursor-pointer">
-                    <input
-                      type="radio"
-                      name="tournaments"
-                      value={option}
-                      checked={formData.tournaments === option}
-                      onChange={handleRadioChange}
-                      className="mr-2"
-                    />
-                    <span className="text-white">{option}</span>
-                  </label>
+                  <div key={option} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md space-x-2">
+                    <RadioGroupItem value={option} id={`tournament-${option}`} className="text-white" />
+                    <Label htmlFor={`tournament-${option}`} className="text-white cursor-pointer w-full">{option}</Label>
+                  </div>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
             
             <div className="mb-8">
@@ -338,66 +350,59 @@ const ApplicationForm = () => {
                   'To be part of a dedicated e-sports community',
                   'For fun and competitive gaming'
                 ].map(reason => (
-                  <label key={reason} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md cursor-pointer">
-                    <input
-                      type="checkbox"
-                      name="motivation"
-                      value={reason}
+                  <div key={reason} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md space-x-2">
+                    <Checkbox 
+                      id={`motivation-${reason}`} 
                       checked={formData.motivation.includes(reason)}
-                      onChange={handleCheckboxChange}
-                      className="mr-2"
+                      onCheckedChange={(checked) => handleCheckboxChange('motivation', reason, checked as boolean)}
+                      className="text-white data-[state=checked]:bg-valorant-red"
                     />
-                    <span className="text-white">{reason}</span>
-                  </label>
+                    <Label htmlFor={`motivation-${reason}`} className="text-white cursor-pointer w-full">{reason}</Label>
+                  </div>
                 ))}
               </div>
             </div>
             
             <div>
               <p className="text-white/80 mb-3">Are you willing to commit to regular training sessions and team meetings?</p>
-              <div className="grid md:grid-cols-3 gap-4">
+              <RadioGroup 
+                name="commitment" 
+                value={formData.commitment} 
+                onValueChange={(value) => handleRadioChange('commitment', value)}
+                className="grid md:grid-cols-3 gap-4"
+              >
                 {[
                   'Yes', 
                   'No', 
                   'Depends on schedule'
                 ].map(option => (
-                  <label key={option} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md cursor-pointer">
-                    <input
-                      type="radio"
-                      name="commitment"
-                      value={option}
-                      checked={formData.commitment === option}
-                      onChange={handleRadioChange}
-                      className="mr-2"
-                    />
-                    <span className="text-white">{option}</span>
-                  </label>
+                  <div key={option} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md space-x-2">
+                    <RadioGroupItem value={option} id={`commitment-${option}`} className="text-white" />
+                    <Label htmlFor={`commitment-${option}`} className="text-white cursor-pointer w-full">{option}</Label>
+                  </div>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
           </div>
           
-          {/* Step 4: Additional Information */}
           <div className={`form-step ${currentStep === 3 ? 'active' : ''}`}>
             <h3 className="text-2xl font-valorant text-white mb-6">Additional Information</h3>
             
             <div className="mb-8">
               <p className="text-white/80 mb-3">Do you have experience in streaming, content creation, or coaching?</p>
-              <div className="grid grid-cols-2 gap-4 max-w-xs">
+              <RadioGroup 
+                name="contentCreation" 
+                value={formData.contentCreation} 
+                onValueChange={(value) => handleRadioChange('contentCreation', value)}
+                className="grid grid-cols-2 gap-4 max-w-xs"
+              >
                 {['Yes', 'No'].map(option => (
-                  <label key={option} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md cursor-pointer">
-                    <input
-                      type="radio"
-                      name="contentCreation"
-                      value={option}
-                      checked={formData.contentCreation === option}
-                      onChange={handleRadioChange}
-                      className="mr-2"
-                    />
-                    <span className="text-white">{option}</span>
-                  </label>
+                  <div key={option} className="flex items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-md space-x-2">
+                    <RadioGroupItem value={option} id={`content-${option}`} className="text-white" />
+                    <Label htmlFor={`content-${option}`} className="text-white cursor-pointer w-full">{option}</Label>
+                  </div>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
             
             <div>
@@ -421,7 +426,6 @@ const ApplicationForm = () => {
             </div>
           </div>
           
-          {/* Form Navigation */}
           <div className="mt-10 flex justify-between">
             <button
               type="button"
