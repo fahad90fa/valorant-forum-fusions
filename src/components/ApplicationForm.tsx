@@ -50,6 +50,7 @@ const ApplicationForm = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    console.log(`Field ${name} updated to: ${value}`);
   };
   
   const handleCheckboxChange = (name: string, value: string, checked: boolean) => {
@@ -206,20 +207,20 @@ const ApplicationForm = () => {
             
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="fullName" className="block text-white/80 mb-2">Full Name</label>
+                <Label htmlFor="fullName" className="block mb-2">Full Name</Label>
                 <Input
                   type="text"
                   id="fullName"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-full"
+                  placeholder="Enter your full name"
                   required
                 />
               </div>
               
               <div>
-                <label htmlFor="age" className="block text-white/80 mb-2">Age</label>
+                <Label htmlFor="age" className="block mb-2">Age</Label>
                 <Input
                   type="number"
                   id="age"
@@ -228,13 +229,13 @@ const ApplicationForm = () => {
                   max="99"
                   value={formData.age}
                   onChange={handleInputChange}
-                  className="w-full"
+                  placeholder="Enter your age"
                   required
                 />
               </div>
               
               <div>
-                <label htmlFor="discordId" className="block text-white/80 mb-2">Discord ID</label>
+                <Label htmlFor="discordId" className="block mb-2">Discord ID</Label>
                 <Input
                   type="text"
                   id="discordId"
@@ -242,20 +243,19 @@ const ApplicationForm = () => {
                   placeholder="username#0000"
                   value={formData.discordId}
                   onChange={handleInputChange}
-                  className="w-full"
                   required
                 />
               </div>
               
               <div>
-                <label htmlFor="location" className="block text-white/80 mb-2">City & Country</label>
+                <Label htmlFor="location" className="block mb-2">City & Country</Label>
                 <Input
                   type="text"
                   id="location"
                   name="location"
+                  placeholder="e.g., London, UK"
                   value={formData.location}
                   onChange={handleInputChange}
-                  className="w-full"
                   required
                 />
               </div>
