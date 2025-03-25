@@ -170,7 +170,8 @@ const ApplicationForm = () => {
     >
       <div 
         ref={formRef} 
-        className="w-full max-w-4xl bg-white/5 backdrop-blur-md border border-white/10 rounded-lg shadow-2xl opacity-0 overflow-hidden"
+        className="w-full max-w-4xl bg-white/5 backdrop-blur-md border border-white/10 rounded-lg shadow-2xl overflow-hidden"
+        style={{ opacity: 1 }}
       >
         <div className="bg-valorant-red/90 p-6 md:p-8">
           <h2 className="text-3xl md:text-4xl font-valorant text-white text-center">
@@ -200,7 +201,7 @@ const ApplicationForm = () => {
         </div>
         
         <form onSubmit={handleSubmit} className="p-6 md:p-10">
-          <div className={`form-step ${currentStep === 0 ? 'active' : ''}`}>
+          <div className={`form-step ${currentStep === 0 ? 'active' : ''}`} style={{ display: currentStep === 0 ? 'block' : 'none', position: 'relative', opacity: 1 }}>
             <h3 className="text-2xl font-valorant text-white mb-6">Personal Information</h3>
             
             <div className="grid md:grid-cols-2 gap-6">
@@ -212,7 +213,7 @@ const ApplicationForm = () => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-full bg-white/10 text-white border-white/20"
+                  className="w-full"
                   required
                 />
               </div>
@@ -227,7 +228,7 @@ const ApplicationForm = () => {
                   max="99"
                   value={formData.age}
                   onChange={handleInputChange}
-                  className="w-full bg-white/10 text-white border-white/20"
+                  className="w-full"
                   required
                 />
               </div>
@@ -241,7 +242,7 @@ const ApplicationForm = () => {
                   placeholder="username#0000"
                   value={formData.discordId}
                   onChange={handleInputChange}
-                  className="w-full bg-white/10 text-white border-white/20"
+                  className="w-full"
                   required
                 />
               </div>
@@ -254,7 +255,7 @@ const ApplicationForm = () => {
                   name="location"
                   value={formData.location}
                   onChange={handleInputChange}
-                  className="w-full bg-white/10 text-white border-white/20"
+                  className="w-full"
                   required
                 />
               </div>
